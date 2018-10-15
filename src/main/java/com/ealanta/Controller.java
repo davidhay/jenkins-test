@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("web")
 public class Controller {
 	
-	private @Value("git.commit.id") String gitCommitId;
-	private @Value("git.commit.message.full") String gitCommitMessage;
 	
 	@RequestMapping("/hello/{name}")
 	@ResponseBody
@@ -33,10 +31,12 @@ public class Controller {
 	
 	@RequestMapping("/git")
 	@ResponseBody
-	public Map<String,String> gitinfo() {
+	public Map<String,String> gitinfo(			
+			@Value("${git.commit.id}") String gitCommitId,
+			@Value("${git.commit.message.full}") String gitCommitMessage) {
 		Map<String,String> result = new HashMap<>();
-		result.put("id", this.gitCommitId);
-		result.put("message", this.gitCommitMessage);
+		result.put("id", gitCommitId);
+		result.put("message", gitCommitMessage);
 		return result;
 	}
 }

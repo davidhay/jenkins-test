@@ -33,6 +33,11 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
@@ -43,17 +48,24 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
-				<version>2.2.4</version>
 				<executions>
 					<execution>
 						<id>get-the-git-infos</id>
 						<goals>
 							<goal>revision</goal>
 						</goals>
+						<phase>validate</phase>
 					</execution>
 				</executions>
 				<configuration>
@@ -62,12 +74,16 @@
 					<verbose>false</verbose>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
 					<generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>
-					<format>json</format>
+					<format>properties</format>
 					<gitDescribe>
 						<skip>false</skip>
 						<always>false</always>
 						<dirty>-dirty</dirty>
 					</gitDescribe>
+					<excludeProperties>
+						<excludeProperty>git.user.*</excludeProperty>
+					</excludeProperties>
+					<verbose>true</verbose>
 				</configuration>
 			</plugin>
 		</plugins>
